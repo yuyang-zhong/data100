@@ -1,0 +1,241 @@
+\documentclass[8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\title{Data 100 Final Exam Reference Sheets}
+\author{Yuyang Zhong}
+\date{May 16, 2019}
+
+\usepackage[margin=0.5in]{geometry}
+\twocolumn
+
+\begin{document}
+
+\section*{Data 100 Final Exam Reference}
+
+\subsection*{Sampling}
+\subsubsection*{Simple Random Sample (SRS)}
+Prob. of 1 in sample of k from population of n:
+$$ P = \frac{k}{n} = \frac{1}{n} + \frac{1}{n-1} + \frac{1}{n-2} + ... + \frac{1}{n-k+1}  $$
+Prob. of 1 from k samples selected from n:
+$$ P= \frac{{n-1\choose k-1}}{{n\choose k}} $$
+
+\subsubsection*{Cluster Sample}
+Divide population into cluster, SRS to select cluster(s)
+
+Prob. of 1 in sample = prob of 1's cluster in sample of k cluster from pop
+$$ P =\frac{\text{k clusters}}{\text{n  clusters of population}} $$
+
+
+\subsubsection*{Stratified Sample}
+Split into strata, SRS in \textbf{EACH} stratum
+
+Prob of 1 in sample = prob of 1 selected from strata of n 
+$$ P = \frac{1}{n} \text{, where n = strata size} $$
+
+\subsubsection*{Multi-Stage}
+Conditional event, SRS to select group, SRS to sample within selected groups
+$$ P(Stage 2 | Stage 1) $$
+\hline
+
+\subsection*{Pandas}
+\begin{verbatim}
+#Data Frames
+df.loc[row, col] #row/column names
+df.loc[[name1, name2]] -> dataframe
+df.loc[name1] -> series
+df.iloc[row, col] #row/column indices
+
+#Series
+s.value_count() # unique value counts
+
+grouped = df.groupby(by)
+        
+#Aggregate groupby object
+        grouped.agg(func)
+        func: max, min, fisrt, last, head
+                (lambda sf: ...) 
+                # manipulate subframe
+                
+#Filtering groupby object
+        grouped.filter(func)
+        func: (lambda sf: ...) 
+        # filtering condition
+
+#merge
+        df.merge(df2, left_on=, right_on=)
+\end{verbatim}
+\hline
+
+\subsection*{SQL}
+\subsubsection*{Basic Syntax}
+\begin{verbatim}
+SELECT  <columns>
+FROM <relations(s)/tables>
+[<join type> JOIN <relation/table>] 
+[ON <predicate>]
+[WHERE <predicate>]
+[GROUP BY <column(s)>] [HAVING <predicate>]
+[ORDER BY <column(s)>] [LIMIT <number>]
+
+ORDER BY RANDOM LIMIT # = random sample
+\end{verbatim}
+
+\subsubsection*{Joins}
+Returns NULL if not found
+
+INNER: Intersection
+
+LEFT OUTER: keep rows on left
+
+RIGHT OUTER: keep rows on right
+
+WHOLE OUTER: everything
+
+
+\subsubsection*{CASE Statement}
+\begin{verbatim}
+CASE WHEN <predicate> THEN <rv_pred> 
+     ELSE <rv_else>
+     END
+\end{verbatim}
+\hline
+
+\subsection*{RegEx}
+\subsubsection*{Characters}
+\begin{verbatim}
+\d: Digits [0-9]
+\w: Alphanumeric [a-zA-Z0-9]
+\s: White space
+\D,\W,\S: Inverses of respective groups
+. : any character
+\ : escape to match literals
+\end{verbatim}
+
+\subsubsection*{Quantifiers}
+\begin{verbatim}
+* : 0 or more times
++ : 1 or more times
+? : exactly 0 or 1 times
+{m} : exactly m times
+{m, n} : between m to n times
+{m, } : at least m times
+{ , n} : at most n times
+\end{verbatim}
+
+\subsubsection*{Anchors}
+\begin{verbatim}
+^ : beginning of line
+$ : end of line
+\end{verbatim}
+
+\subsubsection*{Grouping}
+\begin{verbatim}
+(...) : match all characters in capturing group
+[^...] : excludes all specified
+\end{verbatim}
+
+\subsubsection*{In Python}
+\begin{verbatim}
+import re
+re.match(pattern, string) # 1 match from beginning
+re.search(pattern, string) # 1 match anywhere
+re.findall(pattern, string) # list of all matches
+re.sub(pattern, repl, string) # replace patterns
+re.split(pattern, string) #split by pattern
+
+s.str.extract(r'[group]') # extract by group
+# will only return grouped regex match
+\end{verbatim}
+\hline
+
+\subsection*{Kernel Density Estimation}
+Smooth function to estimate probability distribution:
+
+Center kernel at every point
+
+add function together and take average
+
+$\alpha$ : standard deviation of each kernel (large: spread apart, low/flat peak; small: centered, tall peak)
+\end{itemize}
+\subsubsection*{Gaussian}
+$$ k_\alpha(x, z)=\frac{1}{\sqrt{2\pi\alpha^2}}e^{-\frac{(x-z)^2}{2\alpha^2}} $$
+\subsubsection*{Boxcar}
+\[   \left\{
+\begin{array}{ll}
+      \frac{1}{\alpha} & -\frac{\alpha}{2} \leq x-z \leq  \frac{\alpha}{2}\\
+      0 & \text{else} \\
+\end{array}
+\right. \]
+Probability distribution area = 1
+
+rectangle: $ \frac{1}{\alpha} \cdot \alpha $
+
+bigger $\alpha$ more accurate
+
+\subsection*{Dimensionality Reduction \& PCA with SVD}
+Finding columns that are linearly independent in a design matrix (gives $Rank(X)$):
+$$ X = U\Sigma V^\top $$
+Where,
+
+$X: n\times d$, normalized original dataset (“feature matrix”)
+
+$U: n\times r$, left singular vectors, orthonormal
+
+$\Sigma: r\times r$, diagonal matrix of singular values. The $k$-th singular value is the sum of the squares of the projections of the points to the line determined by the $k$-th singular vector.
+
+$V^\top: r\times d$, right singular vectors, orthonormal\\
+
+\textbf{Directions}
+
+$\mathbf{v1}$ = the unit vector $\mathbf{v}$ that maximizes $|X\mathbf{v}|$
+
+$\mathbf{v2}$ = the unit vector $\mathbf{v}$ that is orthogonal to $\mathbf{v1}$ and maximizes $|X\mathbf{v}|$
+
+The $i$-th singular value of $X$, or $\sigma_i(X)$, is given by $|X\mathbf{v_i}|$. The first $k$ columns of $XV$ (or $UΣ$) are the first $k$ principal components\\
+
+\textbf{Computations}
+
+1. Centering Matrix:
+\begin{verbatim}
+  n = X.shape[0]
+  X_transformed = (X - np.mean(X, axis=0))/np.sqrt(n)
+\end{verbatim}
+
+2. Use SVD to find PCs:
+\begin{verbatim}
+  u, s, vt = np.linalg.svd(X_transformed, full_matrices=False)
+\end{verbatim}
+
+3. Selecting PCs
+\begin{verbatim}
+  (u * s)[:,0] 
+  X @ vt[0,:] 
+  (X @ vt.T)[:,0]
+\end{verbatim}
+\hline
+
+\subsection*{Visualizations}
+\textbf{Things to Consider}
+
+Granularity: what each row represents
+
+Faithfulness: does data accurately capture reality
+
+Temporality: how does data situate in date/time
+
+Scope: coverage of data in relations to analysis (completeness) \\
+
+\textbf{Plots}
+
+Single Discrete: dot plot/bar plot
+
+Single Continuous: strip plot (small), density plot/bar plot (big) 
+
+Multiple Continuous: Scatter plot
+
+Discrete vs. Continuous: Side-by-side box plot, overlay density plot, side-by-side violin plot
+
+2 Discrete vs. 2 Continuous: Sub-scatter plots, color, symbols, overlays
+
+
+\end{document}
