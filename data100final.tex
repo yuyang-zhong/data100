@@ -1,13 +1,16 @@
 \documentclass[8pt]{extarticle}
+
 \usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\graphicspath{ {./assets/img/} }
 
 \title{Data 100 Final Exam Reference Sheets}
 \author{Yuyang Zhong}
 \date{May 16, 2019}
 
-\usepackage[margin=0.5in]{geometry}
 \twocolumn
-
 \begin{document}
 
 \section*{Data 100 Spring 2019 Final Exam Reference}
@@ -81,15 +84,11 @@ ORDER BY RANDOM LIMIT # = random sample
 \end{verbatim}
 
 \subsubsection*{Joins}
-Returns NULL if not found
-
-INNER: Intersection
-
-LEFT OUTER: keep rows on left
-
-RIGHT OUTER: keep rows on right
-
-WHOLE OUTER: everything
+Returns NULL if not found\par
+INNER: Intersection\par
+LEFT OUTER: keep rows on left\par
+RIGHT OUTER: keep rows on right\par
+WHOLE OUTER: everything\par
 
 
 \subsubsection*{CASE Statement}
@@ -151,47 +150,38 @@ s.str.extract(r'[group]') # extract by group
 \subsection*{Kernel Density Estimation}
 Smooth function to estimate probability distribution:
 
-Center kernel at every point
+Center kernel at every point\par
+add function together and take average\par
+$\alpha$ : standard deviation of each kernel (large: spread apart, low/flat peak; small: centered, tall peak)\par
 
-add function together and take average
-
-$\alpha$ : standard deviation of each kernel (large: spread apart, low/flat peak; small: centered, tall peak)
-\end{itemize}
 \subsubsection*{Gaussian}
 $$ k_\alpha(x, z)=\frac{1}{\sqrt{2\pi\alpha^2}}e^{-\frac{(x-z)^2}{2\alpha^2}} $$
 Decrease $\alpha$ decreases smoothness of plot.
 \subsubsection*{Boxcar}
-\[   \left\{
+$$   \left\{
 \begin{array}{ll}
       \frac{1}{\alpha} & -\frac{\alpha}{2} \leq x-z \leq  \frac{\alpha}{2}\\
       0 & \text{else} \\
 \end{array}
-\right. \]
-Probability distribution area = 1
-
-rectangle: $ \frac{1}{\alpha} \cdot \alpha $
-
-bigger $\alpha$ more accurate
+\right. $$
+Probability distribution area = 1\par
+rectangle: $ \frac{1}{\alpha} \cdot \alpha $bigger $\alpha$ more accurate\\
+\hline
 
 \subsection*{Dimensionality Reduction \& PCA with SVD}
 Finding columns that are linearly independent in a design matrix (gives $Rank(X)$):
 $$ X = U\Sigma V^\top $$
 Where,
 
-$X: n\times d$, normalized original dataset (“feature matrix”)
-
-$U: n\times r$, left singular vectors, orthonormal
-
-$\Sigma: r\times r$, diagonal matrix of singular values. The $k$-th singular value is the sum of the squares of the projections of the points to the line determined by the $k$-th singular vector.
-
+$X: n\times d$, normalized original dataset (“feature matrix”)\par
+$U: n\times r$, left singular vectors, orthonormal\par
+$\Sigma: r\times r$, diagonal matrix of singular values. The $k$-th singular value is the sum of the squares of the projections of the points to the line determined by the $k$-th singular vector.\par
 $V^\top: r\times d$, right singular vectors, orthonormal\\
 
 \textbf{Directions}
 
-$\mathbf{v1}$ = the unit vector $\mathbf{v}$ that maximizes $|X\mathbf{v}|$
-
-$\mathbf{v2}$ = the unit vector $\mathbf{v}$ that is orthogonal to $\mathbf{v1}$ and maximizes $|X\mathbf{v}|$
-
+$\mathbf{v1}$ = the unit vector $\mathbf{v}$ that maximizes $|X\mathbf{v}|$\par
+$\mathbf{v2}$ = the unit vector $\mathbf{v}$ that is orthogonal to $\mathbf{v1}$ and maximizes $|X\mathbf{v}|$\par
 The $i$-th singular value of $X$, or $\sigma_i(X)$, is given by $|X\mathbf{v_i}|$. The first $k$ columns of $XV$ (or $UΣ$) are the first $k$ principal components\\
 
 \textbf{Computations}
@@ -209,34 +199,245 @@ The $i$-th singular value of $X$, or $\sigma_i(X)$, is given by $|X\mathbf{v_i}|
 
 3. Selecting PCs
 \begin{verbatim}
-  (u * s)[:,0] 
-  X @ vt[0,:] 
-  (X @ vt.T)[:,0]
+  (u * s)[:,0]        X @ vt[0,:]         (X @ vt.T)[:,0]
 \end{verbatim}
 \hline
 
 \subsection*{Visualizations}
 \textbf{Things to Consider}
 
-Granularity: what each row represents
-
-Faithfulness: does data accurately capture reality
-
-Temporality: how does data situate in date/time
-
+Granularity: what each row represents\par
+Faithfulness: does data accurately capture reality\par
+Temporality: how does data situate in date/time\par
 Scope: coverage of data in relations to analysis (completeness) \\
+
 
 \textbf{Plots}
 
-Single Discrete: dot plot/bar plot
+Single Discrete: dot plot/bar plot\par
+Single Continuous: strip plot (small), density plot/bar plot (big) \par
+Multiple Continuous: Scatter plot\par
+Discrete vs. Continuous: Box plot, overlay density plot, violin plot\par
+2 Discrete vs. 2 Continuous: Sub-scatter, color, symbols, overlays\\
 
-Single Continuous: strip plot (small), density plot/bar plot (big) 
+\hline
 
-Multiple Continuous: Scatter plot
+\subsection*{Probability, Expectations \& Variance}
+\subsubsection*{Sampling}
+Without replacement = ${n \choose r} = {_nC_r} = \frac{n!}{n!(n-r)!}$ ways\par
+Prob of picking 1: $\frac{(n-1) {_nC_r}}{{_nC_r}}$ \par
+With replacement = $n^r$ ways \par
+Prob of picking 1: $1-\frac{(n-1)^r}{n^r}$ \par
 
-Discrete vs. Continuous: Side-by-side box plot, overlay density plot, side-by-side violin plot
+\begin{multicols}{2}
+[
+\subsubsection*{Expectation}
+]
+$E[X]=\Sigma {p(x_i)\cdot x_i}$\par
+$E[X+Y] = E[X] + E[Y]$\par
+$E[cX] = c\cdot E[X]$\par
+$E[XY] = E[X]\cdot E[Y]$ (indep.)\par
+Median Absolute deviation: $Median[X-Median[X]]$\\
+\end{multicols}
 
-2 Discrete vs. 2 Continuous: Sub-scatter plots, color, symbols, overlays
+\subsubsection*{Variance}
+$Var[X] = E[(X-E[X]^2] = E[X^2] - E[X]^2$\par
+$Var[aX] = a^2 \cdot Var[X]$\par
+$Var[X+Y] = Var[X] + Var[Y] + 2 Cov[X, Y]$\par
+$Cov[X, Y] = Var[X] \cdot Var[Y] = E[XY] - E[X]\cdot E[Y]$\\
+
+\subsubsection*{Bernoulli}
+$E[X_i] = p$ and $Var[X_i]=p(1-p)$\par
+Calculating variance: $Var[Y]=Var(\frac{1}{n}\sum{x_i})$\par
+or, for Bernoulli: $Var[X]=np(1-p), y=\frac{1}{100}(x)$\par
+\hline
+
+
+\subsection*{Probability Distribution}
+\subsubsection*{Gaussian}
+$$ f_N(x:\mu, \sigma)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$
+\subsubsection*{Bernoulli}
+$$ f_{binary}(y:n, p)= {_nC_y} \cdot p^y(1-p)^{n-y} $$ 
+\hline
+
+\subsection*{Linear Algebra Properties}
+\begin{multicols}{2}
+$\mathbf{a}\cdot \mathbf{a} = \mathbf{a}^\top \mathbf{a}$\par
+$\mathbf{a}\cdot \mathbf{b} = \mathbf{b}^\top \mathbf{a} = \mathbf{a}^\top \mathbf{b}$\par
+$(AB)^\top = B^\top A^\top$ \par
+$\nabla_x \mathbf{a}^\top \mathbf{x} = \nabla_x \mathbf{x}^\top \mathbf{a} =\mathbf{a} $ \par
+$\nabla_x \mathbf{x}^\top A\mathbf{x} = (A+A^\top)\mathbf{x}$, $=2A\mathbf{x}$ if $A=A^\top$ symmetric 
+\end{multicols}
+
+Projection Matrix: $A^2 = A$ \\
+\hline
+
+\subsection*{Loss \& Risk Optimization}
+\subsubsection*{Loss Functions}
+Measuring loss at a specific point/observation:\par
+$L_1 = |y-\hat{y}|$, minimized by median \par
+$L_2 = (y-\hat{y})^2$, minimized by mean \par
+Huber: $   \left\{
+\begin{array}{ll}
+      \frac{1}{2} (y-\hat{y})^2 &  |y-\hat{y}|\leq \alpha \\
+      \alpha  |y-\hat{y}| - \frac{1}{2}\alpha & \text{else} \\
+\end{array}
+\right. $\par
+\textbf{To find empirical risk, average loss from every point!}
+
+Minimizing/estimating parameter: \begin{array}{ll}
+      Find Derivative of Risk \\
+      Set Derivative to 0\\
+      Solve for $\beta$\\
+\end{array} \\
+
+\subsubsection*{Regularization, Bias \& Variance Trade-off}
+Risk is the average loss over an entire set of observations: \par
+Risk = $E[(y-f(x))^2] = Bias^2[X] + Var[X]$ \par
+$\lambda \uparrow \rightarrow Bias \uparrow \rightarrow Variance \downarrow $\par
+\includegraphics[width=0.4\textwidth]{b-v-tradeoff}\par
+Polynomial: higher degree, $Bias \downarrow \& Variance \uparrow $\\
+
+
+\textbf{Regularization for Mean Squared Error Function}
+Finding the best value of $\theta$ such that our complexity is below the complexity parameter:
+
+$\lambda \rightarrow 0,  \hat{\theta} \rightarrow L_2 $, little regularization\par
+$\lambda \rightarrow \infty,  \beta_i \rightarrow 0 $, constant model, unde-fit \\}
+
+\textbf{Ridge ($L_2$)}:$\frac{1}{n}\|{y-X\beta}\|_2^2 + \lambda \sum \beta^2$ \par
+$\beta^* = (\mathbf{x}^\top \mathbf{x} - \lambda I)^{-1}\mathbf{x}^\top \mathbf{y}$\par
+Distribute weight across related feature \par
+Does not encourage sparsity \textbf{(does not set anything to 0)} \\
+ 
+\textbf{LASSO ($L_1$)}: $\frac{1}{n}\|{y-X\beta}\|_2^2 + \lambda |\beta |$ \par
+No Analytical Solution $\beta^*$ \par
+Encourages sparsity \textbf{setting some weight to 0, decrease some} (feature selection) \\
+
+\textbf{Linearity of features}: $x$ terms can be polynomial, but $\beta$ must be in separate terms and unique to each $x$. \par
+\textbf{Convexity}: All lines connecting two points of the graph appear above the graph.\\
+\hline
+
+\subsection*{Linear Regression & Least Squares}
+\textbf{Linear Regression Model}: $E[Y|X]=X^\top \beta$ 
+
+\textbf{Normal Equation}: \par
+$L(\beta)=\mathbf{y}^\top \mathbf{y}-2\beta^\top \mathbf{x}^\top \mathbf{y}+\beta ^\top \mathbf{x}^\top \mathbf{x}\beta$ \par
+$\nabla_\beta L(\beta)= \mathbf{x}^\top \mathbf{x}\beta -\mathbf{x}^\top\mathbf{y} = 0 $ \par
+$\beta^* = (\mathbf{x}^\top \mathbf{x})^{-1}\mathbf{x}^\top \mathbf{y} = \sum^{n}_{i=1} \frac{x_iy_i}{x_i^2}$ \\
+
+\textbf{Conditional Covariance}: \par
+$Cov[\hat{\beta} | \mathbf{x}] = \sigma^2(\mathbf{x}^\top \mathbf{x})^{-1}$, where $Var[Y|X]=\sigma^2$ \par
+
+\includegraphics[width=0.4\textwidth]{leastsquares}\par
+
+*error/residuals need to be orthogonal to $Col(X)$ (aka MSE)\par
+$X: n \times p$, to find some $\hat{\beta}$ that minimizes $\|e\|^2_2 $ \par
+$\hat{\mathbf{y}}$ : observed $\mathbf{y}$ projected on $Col(X)$, linear, orthogonal to residuals \\
+\hline
+
+\subsection*{Gradient Descent}
+$$\beta ^{t-1} = \beta^t-\alpha \nabla_\beta L(\beta^t)$$
+$\alpha$ = learning rate\par
+standard/batch: use all points \par
+stochastic: pick random point to approximate batch \par
+mini-batch: pick $k$ random points \\
+
+\textbf{Algorithm}:
+\begin{verbatim}
+def grad_desc(x, y, theta, iter=#, alpha=#):
+    for i in range(iter):
+        grad = dt(x, t, theta)
+        theta = theta - alpha * grad
+        loss = mse(model(x, theta[0], theta[1], y))
+        theta_history.append(theta)
+        loss_history.append(loss)
+    return theta, theta_history, loss_history
+        
+\end{verbatim}
+\hline
+
+\subsection*{Cross Validation}
+\textbf{Algorithm}:
+\begin{verbatim}
+def CV_error(model, X_train, Y_train):
+    kf = KFold(n_splits = 4)
+    validation_errors = []
+    
+    for train_idx, valid_idx in kf.split(X_train):
+        # Split Data
+        split_X_train = X_train.iloc[train_idx]
+        split_X_valid = X_valid.iloc[valid_idx]
+        split_Y_train = Y_train.iloc[train_idx]
+        split_Y_valid = Y_valid.iloc[valid_idx]
+        
+        # Fit Model
+        model.fit(split_X_train, split_Y_train)
+        
+        # Compute Error
+        Y_pred = model.predict(split_X_valid)
+        error = rmse(Y_pred, split_Y_valid)
+        
+        valifation_errors.append(error)
+        
+    return np.mean(validation_errors)
+
+\end{verbatim}
+
+\hline
+
+\subsection*{Logistic Regression/Classification}
+\textbf{Equations}:\par
+\textbf{Logistic Regression Model}: $E[Y=1|X]=\sigma(X^\top \beta)$\par
+$log(\frac{P(Y=1|X)}{P(Y=0|X)}) = X^\top \beta$ \\
+
+\textbf{Sigmoid Function}: $\sigma(t)= \frac{1}{1+e^{-t}} = \frac{e^t}{1+e^t}$ \par
+$\sigma(-t) = 1-\sigma(t)$ \par
+$\sigma'(t) = \sigma(t)(1-\sigma(t))$ \par
+$X^\top \beta \rightarrow \infty, \sigma(t)\rightarrow 1$\par
+$X^\top \beta \rightarrow -\infty, \sigma(t)\rightarrow 0$ \par
+
+\subsubsection*{Cross Entropy Loss}
+$-\mathbf{y_i}log(\theta) - (1-\mathbf{y_i})log(\theta)$ \\
+
+TFAE when $\theta = \sigma(\mathbf{x_i^\top}\beta) $: \par
+$L(y, \theta) =$ \par
+$-\mathbf{y_i}log(\sigma(\mathbf{x_i^\top}\beta)) - (1-\mathbf{y_i})log(\sigma(\mathbf{x_i^\top}\beta))$ \par
+$-\mathbf{y_i}\mathbf{x_i^\top}\beta +log(\sigma(-\mathbf{x_i^\top}\beta))$ \par
+
+\subsubsection*{Classifier Evaluation}
+\begin{center}
+\begin{tabular}{ |c| c |c| } 
+\hline
+  & 1 & 0 \\ 
+ \hline
+ 1 & TP & FP \\  
+ \hline
+ 0 & FN & TN \\
+ \hline
+\end{tabular}
+\end{center}
+
+\textbf{accuracy}: (TP+TN)/n \par
+\textbf{error}: (FP+FN)/n \par
+\textbf{precision}: TP/(TP+FP) (\# of correct label over all true labels) \par
+\textbf{recall}: TP/(TP/FN) (\# of true labels over all actually true items) \par
+
+\textbf{Code}:
+\begin{verbatim}
+np.count_nonzero(
+    (y==y_pred) & (y_pred==1)  #TP
+    (y==y_pred) & (y_pred==0)  #TN
+    (y!=y_pred) & (y_pred==1)  #FP
+    (y!=y_pred) & (y_pred==0)  #FN
+)
+\end{verbatim}
+
+\subsubsection*{Linear Separability}
+$d$-dimensional points, draw a $d-1$ dimension line/plane to separate points:\par
+\includegraphics[width=0.4\textwidth]{separate}\par
+* if data is linearly separable, then we can choose some $\beta$ such that the cross entropy loss $\rightarrow0$, and our optimal $\beta \rightarrow \infty$ (vertical line) \\ 
+\hline
 
 
 \end{document}
