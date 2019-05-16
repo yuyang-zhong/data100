@@ -26,14 +26,14 @@ $$ P= \frac{{n-1\choose k-1}}{{n\choose k}} $$
 Divide population into cluster, SRS to select cluster(s)
 
 Prob. of 1 in sample = prob of 1's cluster in sample of k cluster from pop
-$$ P =\frac{\text{k clusters}}{\text{n  clusters of population}} $$
+$$ P =\frac{k\mbox{ clusters}}{n\mbox{ clusters of population}} $$
 
 
 \subsubsection*{Stratified Sample}
 Split into strata, SRS in \textbf{EACH} stratum
 
 Prob of 1 in sample = prob of 1 selected from strata of n 
-$$ P = \frac{1}{n} \text{, where n = strata size} $$
+$$ P = \frac{1}{n} \mbox{, where } n = \mbox{strata size} $$
 
 \subsubsection*{Multi-Stage}
 Conditional event, SRS to select group, SRS to sample within selected groups
@@ -65,7 +65,7 @@ grouped = df.groupby(by)
         # filtering condition
 
 #merge
-        df.merge(df2, left_on=, right_on=)
+        df1.merge(df2, left_on=, right_on=)
 \end{verbatim}
 \hline
 
@@ -165,24 +165,24 @@ $$   \left\{
 \end{array}
 \right. $$
 Probability distribution area = 1\par
-rectangle: $ \frac{1}{\alpha} \cdot \alpha $bigger $\alpha$ more accurate\\
+rectangle: $ \frac{1}{\alpha} \cdot \alpha $; bigger $\alpha$ more accurate\\
 \hline
 
 \subsection*{Dimensionality Reduction \& PCA with SVD}
 Finding columns that are linearly independent in a design matrix (gives $Rank(X)$):
-$$ X = U\Sigma V^\top $$
+$$ X = \mathbf{u}\Sigma \mathbf{v^\top} $$
 Where,
 
 $X: n\times d$, normalized original dataset (“feature matrix”)\par
-$U: n\times r$, left singular vectors, orthonormal\par
+$\mathbf{u}: n\times r$, left singular vectors, orthonormal\par
 $\Sigma: r\times r$, diagonal matrix of singular values. The $k$-th singular value is the sum of the squares of the projections of the points to the line determined by the $k$-th singular vector.\par
-$V^\top: r\times d$, right singular vectors, orthonormal\\
+$\mathbf{v^\top}: r\times d$, right singular vectors, orthonormal\\
 
 \textbf{Directions}
 
 $\mathbf{v1}$ = the unit vector $\mathbf{v}$ that maximizes $|X\mathbf{v}|$\par
 $\mathbf{v2}$ = the unit vector $\mathbf{v}$ that is orthogonal to $\mathbf{v1}$ and maximizes $|X\mathbf{v}|$\par
-The $i$-th singular value of $X$, or $\sigma_i(X)$, is given by $|X\mathbf{v_i}|$. The first $k$ columns of $XV$ (or $UΣ$) are the first $k$ principal components\\
+The $i$-th singular value of $X$, or $\sigma_i(X)$, is given by $|X\mathbf{v_i}|$. The first $k$ columns of $X\mathbf{v^\top}$ (or $\mathbf{u}\Sigma$) are the first $k$ principal components\\
 
 \textbf{Computations}
 
@@ -233,18 +233,20 @@ Prob of picking 1: $1-\frac{(n-1)^r}{n^r}$ \par
 [
 \subsubsection*{Expectation}
 ]
-$E[X]=\Sigma {p(x_i)\cdot x_i}$\par
+$E[X]=\Sigma {(p(x_i)\cdot x_i)}$\par
 $E[X+Y] = E[X] + E[Y]$\par
 $E[cX] = c\cdot E[X]$\par
 $E[XY] = E[X]\cdot E[Y]$ (indep.)\par
-Median Absolute deviation: $Median[X-Median[X]]$\\
+Median Absolute deviation: $Median[X-Median[X]]$\par
 \end{multicols}
 
 \subsubsection*{Variance}
 $Var[X] = E[(X-E[X]^2] = E[X^2] - E[X]^2$\par
 $Var[aX] = a^2 \cdot Var[X]$\par
 $Var[X+Y] = Var[X] + Var[Y] + 2 Cov[X, Y]$\par
-$Cov[X, Y] = Var[X] \cdot Var[Y] = E[XY] - E[X]\cdot E[Y]$\\
+$Cov[X, Y] = Var[X] \cdot Var[Y] = E[XY] - E[X]\cdot E[Y]$\par
+
+Same mean/variance $\neq$ same data
 
 \subsubsection*{Bernoulli}
 $E[X_i] = p$ and $Var[X_i]=p(1-p)$\par
@@ -257,7 +259,7 @@ or, for Bernoulli: $Var[X]=np(1-p), y=\frac{1}{100}(x)$\par
 \subsubsection*{Gaussian}
 $$ f_N(x:\mu, \sigma)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$
 \subsubsection*{Bernoulli}
-$$ f_{binary}(y:n, p)= {_nC_y} \cdot p^y(1-p)^{n-y} $$ 
+$$ f_{\mbox{binary}} (y:n, p) = {_nC_y} \cdot p^y(1-p)^{n-y} $$ 
 \hline
 
 \subsection*{Linear Algebra Properties}
@@ -286,24 +288,25 @@ Huber: $   \left\{
 \textbf{To find empirical risk, average loss from every point!}
 
 Minimizing/estimating parameter: \begin{array}{ll}
-      Find Derivative of Risk \\
-      Set Derivative to 0\\
-      Solve for $\beta$\\
+      \mbox{Find Derivative of Risk} \\
+      \textbf{($\beta$ is Constant!)}\\
+      \mbox{Set Derivative to 0}\\
+      \mbox{Solve for} $\beta$\\
 \end{array} \\
 
 \subsubsection*{Regularization, Bias \& Variance Trade-off}
 Risk is the average loss over an entire set of observations: \par
-Risk = $E[(y-f(x))^2] = Bias^2[X] + Var[X]$ \par
-$\lambda \uparrow \rightarrow Bias \uparrow \rightarrow Variance \downarrow $\par
-\includegraphics[width=0.4\textwidth]{b-v-tradeoff}\par
-Polynomial: higher degree, $Bias \downarrow \& Variance \uparrow $\\
+Risk = $E[(\mathbf{y}-f(\mathbf{x}))^2] = (E[f(\mathbf{x})] - \mathbf{y})^2 + E[(f(\mathbf{x})-E[f(\mathbf{x})])^2] $\par
+$= Bias^2[\mathbf{y}, f(\mathbf{x})] + Var[f(\mathbf{x})]$ \par
+\begin{center}\includegraphics[width=0.33\textwidth]{b-v-tradeoff}\par \end{center}
+Polynomial: higher degree, $Bias \downarrow, Variance \uparrow $, model complexity $\uparrow$\\
 
-
-\textbf{Regularization for Mean Squared Error Function}
-Finding the best value of $\theta$ such that our complexity is below the complexity parameter:
+\textbf{Regularization for Mean Squared Error Function}\par
+Regularize when \textbf{high loss, high variances}, controlling low bias
 
 $\lambda \rightarrow 0,  \hat{\theta} \rightarrow L_2 $, little regularization\par
-$\lambda \rightarrow \infty,  \beta_i \rightarrow 0 $, constant model, unde-fit \\}
+$\lambda \rightarrow \infty,  \beta_i \rightarrow 0 $, constant model, under-fit \par
+$\lambda \uparrow \rightarrow Bias \uparrow \rightarrow Variance \downarrow $\\
 
 \textbf{Ridge ($L_2$)}:$\frac{1}{n}\|{y-X\beta}\|_2^2 + \lambda \sum \beta^2$ \par
 $\beta^* = (\mathbf{x}^\top \mathbf{x} - \lambda I)^{-1}\mathbf{x}^\top \mathbf{y}$\par
@@ -318,7 +321,7 @@ Encourages sparsity \textbf{setting some weight to 0, decrease some} (feature se
 \textbf{Convexity}: All lines connecting two points of the graph appear above the graph.\\
 \hline
 
-\subsection*{Linear Regression & Least Squares}
+\subsection*{Linear Regression \& Least Squares}
 \textbf{Linear Regression Model}: $E[Y|X]=X^\top \beta$ 
 
 \textbf{Normal Equation}: \par
@@ -329,11 +332,12 @@ $\beta^* = (\mathbf{x}^\top \mathbf{x})^{-1}\mathbf{x}^\top \mathbf{y} = \sum^{n
 \textbf{Conditional Covariance}: \par
 $Cov[\hat{\beta} | \mathbf{x}] = \sigma^2(\mathbf{x}^\top \mathbf{x})^{-1}$, where $Var[Y|X]=\sigma^2$ \par
 
-\includegraphics[width=0.4\textwidth]{leastsquares}\par
+\begin{center} \includegraphics[width=0.45\textwidth]{leastsquares}\par \end{center}
 
 *error/residuals need to be orthogonal to $Col(X)$ (aka MSE)\par
 $X: n \times p$, to find some $\hat{\beta}$ that minimizes $\|e\|^2_2 $ \par
-$\hat{\mathbf{y}}$ : observed $\mathbf{y}$ projected on $Col(X)$, linear, orthogonal to residuals \\
+$\hat{\mathbf{y}}$ : observed $\mathbf{y}$ projected on $Col(X)$, linear, orthogonal to residuals \par
+Sum of residuals = 0 \\
 \hline
 
 \subsection*{Gradient Descent}
@@ -358,6 +362,8 @@ def grad_desc(x, y, theta, iter=#, alpha=#):
 \hline
 
 \subsection*{Cross Validation}
+Fold = \# of times splitting 
+
 \textbf{Algorithm}:
 \begin{verbatim}
 def CV_error(model, X_train, Y_train):
@@ -389,7 +395,8 @@ def CV_error(model, X_train, Y_train):
 \subsection*{Logistic Regression/Classification}
 \textbf{Equations}:\par
 \textbf{Logistic Regression Model}: $E[Y=1|X]=\sigma(X^\top \beta)$\par
-$log(\frac{P(Y=1|X)}{P(Y=0|X)}) = X^\top \beta$ \\
+$log(\frac{P(Y=1|X)}{P(Y=0|X)}) = X^\top \beta$ \par
+The intercept term helps us shift the center/inflection point of the sigmoid away from the origin.\\
 
 \textbf{Sigmoid Function}: $\sigma(t)= \frac{1}{1+e^{-t}} = \frac{e^t}{1+e^t}$ \par
 $\sigma(-t) = 1-\sigma(t)$ \par
@@ -398,11 +405,11 @@ $X^\top \beta \rightarrow \infty, \sigma(t)\rightarrow 1$\par
 $X^\top \beta \rightarrow -\infty, \sigma(t)\rightarrow 0$ \par
 
 \subsubsection*{Cross Entropy Loss}
-$-\mathbf{y_i}log(\theta) - (1-\mathbf{y_i})log(\theta)$ \\
+$-\mathbf{y_i}log(\theta) - (1-\mathbf{y_i})log(1-\theta)$ \\
 
 TFAE when $\theta = \sigma(\mathbf{x_i^\top}\beta) $: \par
 $L(y, \theta) =$ \par
-$-\mathbf{y_i}log(\sigma(\mathbf{x_i^\top}\beta)) - (1-\mathbf{y_i})log(\sigma(\mathbf{x_i^\top}\beta))$ \par
+$-\mathbf{y_i}log(\sigma(\mathbf{x_i^\top}\beta)) - (1-\mathbf{y_i})log(1-\sigma(\mathbf{x_i^\top}\beta))$ \par
 $-\mathbf{y_i}\mathbf{x_i^\top}\beta +log(\sigma(-\mathbf{x_i^\top}\beta))$ \par
 
 \subsubsection*{Classifier Evaluation}
@@ -435,9 +442,105 @@ np.count_nonzero(
 
 \subsubsection*{Linear Separability}
 $d$-dimensional points, draw a $d-1$ dimension line/plane to separate points:\par
-\includegraphics[width=0.4\textwidth]{separate}\par
-* if data is linearly separable, then we can choose some $\beta$ such that the cross entropy loss $\rightarrow0$, and our optimal $\beta \rightarrow \infty$ (vertical line) \\ 
+\begin{center}\includegraphics[width=0.4\textwidth]{separate}\par \end{center}
+To be linearly separable, the data just needs to be separable on \textbf{one of the feature columns}. \par
+* if data is linearly separable, then we can choose some $\beta$ such that the cross entropy loss $\rightarrow0$, and our optimal $\beta \rightarrow \infty$ (vertical line)  (OR: our $\beta$'s in the model will be very large, and will not be set to 0 by LASSO.) \textbf{Should regularize.}\\ 
 \hline
 
+\subsection*{Tree-Based Methods}
+\subsubsection*{Decision Trees}
+Each node represents a variable, and \textbf{splits based on variable’s values}. Leaf node associated with \textbf{prediction values} \par
+Training: Identify how tree should be structured \par
+Prediction: start from root, leaf node signifies prediction \\
+
+1. Selecting splits; \par
+2. Decide whether to declare node to be terminal or continue; \par
+3. Assign fitted values at each terminal node
+
+\subsubsection*{Deciding Splits}
+Split at each node to maximize decrease in risk of current node (locally optimal) \par
+Greedy Optimization: minimum risk occurs by taking a sub-optimal split at current node; depth first search computationally expensive \par
+Classification: Impurity Measures as Risk Function (out of scope) \par
+Regression: Squared Loss, Absolute Loss, Huber Loss \par
+
+\subsubsection*{Stopping Splits + Prune to Avoid Overfitting}
+To prevent overfitting and classify over every single point: \par
+\textbf{Pruning}: remove section of tree that has little effect \par
+Set \textbf{maximum tree depth}, \textbf{minimum number of samples} required to split, or \textbf{maximum impurity threshold}\\
+
+\subsubsection*{Ensamble Methods}
+Building multiple trees to avoid overfitting \par
+Regression: average/median across tress (reduce variability + smooth regression surface)\par
+Classification: majority vote \par
+\textbf{Bagging (Bootstrap Aggregating)}: same tree trained on multiple bootstrap sample (good when single tree overfit)\par
+\textbf{Boosting}: Assign higher weights to misclassified points (combined weak learners to create 1 strong learner)\par
+Difference in Prob: Bagging - each point has equal chance of resample; Boosting - weights determined by performance \\
+
+\subsubsection*{Pros \& Cons}
+\begin{multicols}{2}
+\textbf{Pros}: \par
+Highly interpretable \par
+Performs variable selections without LASSO \par
+Works well with nonlinear boundaries\\
+
+\textbf{Cons}:\par
+Easy to overfit \par
+Requires a lot of fine tuning \par
+Outperformed by other ML techniques \\
+\end{multicols}
+
+\subsubsection*{Random Forest}
+Build many trees using bootstrap samples (bagging)\par
+When training each tree, at each node we take a sample of predictors and split\\
+\hline
+
+\subsection*{Bootstrapping}
+\subsubsection*{Confidence Interval}
+Finding Confidence Interval: \par
+1. Sort collection in increasing order \par
+2. Find $p\%$ (percentile) of $n$: $(p/ 100) \times n = k$ \par
+3. If $k$ is an integer, take the $k$th element of the sorted collection \par
+4. Else, round it up to the next integer, and take that element of the sorted collection. \\
+
+\subsubsection*{Interpretation of CI}
+Redraw $k$ sets of bootstrap samples, and calculate $k$ $\alpha \%$ Confidence Intervals, $\alpha \%$ of them will contain the true parameter of the \textbf{sampling population}. \\
+\hline
+
+\section*{Big Data}
+\subsubsection*{Data Organization}
+\textbf{Database & Data Warehouse}:\par
+Data are extracted, transformed, and loaded \par
+
+\textbf{Star schema}:
+Fact table: contains \textbf{unique} primary keys + foreign key references to dimension tables\par
+Dimension tables: primary keys are unique values to this dimension\par
+\textbf{Snowflake schema} expands on each star to have dependent dimension tables and fact table. \\
+
+\textbf{Data Lake - Unstructured Data}:
+Store data in \textbf{raw form}\par
+Requires knowledge in access/query \\
+
+\subsubsection*{Distributed Computing}
+Split one large file into parts, then distribute across multiple machines: \par
+\textbf{Total fragments made} = \# of fragments * \# of replications \par
+\textbf{Fragment/machine} = Total fragments made / \# of machines \par
+\textbf{Maximum \# machine fail} = \# of replications - 1 \\
+
+\subsubsection*{Map Reduce Model}
+\begin{center}\includegraphics[width=0.45\textwidth]{mapreduce}\par \end{center}
+
+\textbf{Map}: takes a dataset and a function and applies function on all points \par
+\textbf{Reduce}: aggregates output of the map stage \par
+*During reduce, all records associated to a given key are sent to the same machine.\par
+*Reading from a large file from distributed machine is faster. \par
+
+\subsubsection*{Ray}
+Distributed execution engine, utilizes multiple CPU:\par
+\textbf{Worker}: worker processes execute tasks \par
+\textbf{Object Store}: immutable objects of processed task stored here, allow workers to efficiently share objects on the same node \par
+\textbf{Task}: stateless function that can be execute on a remote server (functions) \par
+\textbf{Actor}: stateful object that lives in a remote process (class/object-oriented) \par
+*remote process returns object id, use ray.get() to get the actual values back \\
+\hline
 
 \end{document}
